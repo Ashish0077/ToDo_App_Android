@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.update.UpdateFragment">
 
@@ -14,7 +15,7 @@
         android:ems="10"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_input"
         android:inputType="textPersonName"
         android:hint="@string/title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,7 @@
         android:paddingEnd="24dp"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_input"
         android:hint="@string/description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
