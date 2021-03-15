@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ToDo App</string>
+    <string name="no_data">No Data</string>
 </resources>
