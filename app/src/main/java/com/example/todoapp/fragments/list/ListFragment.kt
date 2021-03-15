@@ -1,10 +1,8 @@
 package com.example.todoapp.fragments.list
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
@@ -26,7 +24,13 @@ class ListFragment : Fragment() {
                 .setOnClickListener {
                     findNavController().navigate(R.id.action_listFragment_to_updateFragment)
                 }
+        // set menu
+        setHasOptionsMenu(true)
 
         return view;
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_fragment_menu, menu)
     }
 }
