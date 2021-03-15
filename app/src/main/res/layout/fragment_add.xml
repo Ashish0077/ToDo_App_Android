@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     tools:context=".fragments.add.AddFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add Fragment" />
+    <EditText
+        android:id="@+id/title_et"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:ems="10"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:background="@android:color/transparent"
+        android:inputType="textPersonName"
+        android:hint="@string/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/priorities_spinner"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:entries="@array/priorities"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_et" />
+
+    <EditText
+        android:id="@+id/description_et"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:layout_marginTop="8dp"
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:background="@android:color/transparent"
+        android:hint="@string/description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priorities_spinner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
