@@ -6,28 +6,31 @@ import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.example.todoapp.R
+import com.example.todoapp.databinding.FragmentListBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private var _binding: FragmentListBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-        val view = inflater.inflate(R.layout.fragment_list, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        view.findViewById<FloatingActionButton>(R.id.floatingActionButton)
-                .setOnClickListener {
+        _binding = FragmentListBinding.inflate(inflater, container, false)
+        binding.floatingActionButton.setOnClickListener {
                     findNavController().navigate(R.id.action_listFragment_to_addFragment)
                 }
-
         // temp solution to reach update fragment
-        view.findViewById<ConstraintLayout>(R.id.list_layout)
-                .setOnClickListener {
+        binding.listLayout.setOnClickListener {
                     findNavController().navigate(R.id.action_listFragment_to_updateFragment)
                 }
         // set menu
         setHasOptionsMenu(true)
-
-        return view;
+        return binding.root;
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
