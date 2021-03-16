@@ -3,6 +3,7 @@ package com.example.todoapp.fragments.list
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapp.R
 import com.example.todoapp.data.viewmodel.ToDoViewModel
 import com.example.todoapp.databinding.FragmentListBinding
+import com.example.todoapp.fragments.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {
@@ -22,6 +24,7 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
     private val listAdapter: ListAdapter by lazy { ListAdapter() }
     private val mToDoViewModel: ToDoViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,10 +42,24 @@ class ListFragment : Fragment() {
         binding.recyclerView.adapter = listAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         mToDoViewModel.getAllData.observe(viewLifecycleOwner) { data ->
+            mSharedViewModel.isDatabaseEmpty(data)
             listAdapter.setData(data)
+        }
+        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner) { isDbEmpty ->
+            showNoDataImage(isDbEmpty)
         }
 
         return binding.root;
+    }
+
+    private fun showNoDataImage(isDbEmpty: Boolean) {
+        if(isDbEmpty) {
+            binding.noDataImageView.visibility = View.VISIBLE
+            binding.noDataTextView.visibility = View.VISIBLE
+        } else {
+            binding.noDataImageView.visibility = View.INVISIBLE
+            binding.noDataTextView.visibility = View.INVISIBLE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
