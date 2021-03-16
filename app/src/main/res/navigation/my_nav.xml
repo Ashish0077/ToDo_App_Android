@@ -46,5 +46,8 @@
             app:destination="@id/listFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left" />
+        <argument
+            android:name="currentItem"
+            app:argType="com.example.todoapp.data.models.ToDoData" />
     </fragment>
 </navigation>
