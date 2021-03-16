@@ -29,7 +29,7 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:entries="@array/priorities"
-        android:background="@android:color/transparent"
+        android:background="@drawable/custom_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_et" />

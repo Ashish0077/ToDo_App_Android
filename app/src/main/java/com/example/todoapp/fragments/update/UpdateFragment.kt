@@ -28,7 +28,7 @@ class UpdateFragment : Fragment() {
         setHasOptionsMenu(true)
         binding.currentDescriptionEt.setText(args.currentItem.description)
         binding.currentTitleEt.setText(args.currentItem.title)
-        binding.currentPrioritiesSpinner.setSelection(parsePriority(args.currentItem.priority))
+        binding.currentPrioritiesSpinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
 
         return binding.root
     }
@@ -37,11 +37,5 @@ class UpdateFragment : Fragment() {
         inflater.inflate(R.menu.update_fragment_menu, menu)
     }
 
-    private fun parsePriority(priority: Priority): Int {
-        return when(priority) {
-            Priority.High -> 0
-            Priority.Medium -> 1
-            Priority.Low -> 2
-        }
-    }
+
 }
