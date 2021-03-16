@@ -11,6 +11,7 @@ import com.example.todoapp.data.models.Priority
 import com.example.todoapp.data.models.ToDoData
 import com.example.todoapp.data.viewmodel.ToDoViewModel
 import com.example.todoapp.databinding.FragmentAddBinding
+import com.example.todoapp.fragments.SharedViewModel
 
 class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
@@ -19,6 +20,7 @@ class AddFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mToDoViewModel: ToDoViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +46,12 @@ class AddFragment : Fragment() {
         val mTitle = binding.titleEt.text.toString()
         val mPriority = binding.prioritiesSpinner.selectedItem.toString()
         val mDescription = binding.descriptionEt.text.toString()
-        val validation = verifyDataFromUser(mTitle, mDescription)
+        val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
         if(validation) {
             val newData = ToDoData(
                 0,
                 mTitle,
-                parsePriority(mPriority),
+                mSharedViewModel.parsePriority(mPriority),
                 mDescription
             )
             mToDoViewModel.insertData(newData)
@@ -66,19 +68,6 @@ class AddFragment : Fragment() {
                     "Please fill out all the fields.",
                     Toast.LENGTH_SHORT
             ).show()
-        }
-    }
-
-    private fun verifyDataFromUser(title: String, desc: String): Boolean {
-        return !(title.isNullOrEmpty() || desc.isNullOrEmpty())
-    }
-
-    private fun parsePriority(priority: String): Priority {
-        return when(priority) {
-            "Priority High" -> Priority.High
-            "Priority Low" -> Priority.Low
-            "Priority Medium" -> Priority.Medium
-            else -> Priority.Low
         }
     }
 }
