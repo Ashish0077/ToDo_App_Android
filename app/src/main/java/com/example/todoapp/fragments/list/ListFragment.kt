@@ -17,6 +17,7 @@ import com.example.todoapp.data.viewmodel.ToDoViewModel
 import com.example.todoapp.databinding.FragmentListBinding
 import com.example.todoapp.fragments.SharedViewModel
 import com.example.todoapp.fragments.list.adapter.ListAdapter
+import com.example.todoapp.utils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.*
@@ -39,8 +40,13 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         _binding = FragmentListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.mSharedViewModel = mSharedViewModel
+
         // set menu
         setHasOptionsMenu(true)
+
+        // hide soft keyboard
+        hideKeyboard(requireActivity())
+
         setUpRecyclerView()
         mToDoViewModel.getAllData.observe(viewLifecycleOwner) { data ->
             mSharedViewModel.isDatabaseEmpty(data)
