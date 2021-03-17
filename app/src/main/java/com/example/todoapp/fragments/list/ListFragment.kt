@@ -8,7 +8,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todoapp.R
@@ -18,10 +17,10 @@ import com.example.todoapp.databinding.FragmentListBinding
 import com.example.todoapp.fragments.SharedViewModel
 import com.example.todoapp.fragments.list.adapter.ListAdapter
 import com.example.todoapp.utils.hideKeyboard
+import com.example.todoapp.utils.observeOnce
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.coroutines.*
-
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentListBinding? = null
     // This property is only valid between onCreateView and onDestroyView.
@@ -159,6 +158,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         val searchQuery = "%$query%"
         mToDoViewModel
             .searchDatabase(searchQuery)
-            .observe(viewLifecycleOwner) { list -> listAdapter.setData(list) }
+            .observeOnce(viewLifecycleOwner) {
+                listAdapter.setData(it)
+            }
     }
 }
