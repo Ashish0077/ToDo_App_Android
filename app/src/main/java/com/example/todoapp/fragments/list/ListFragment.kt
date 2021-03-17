@@ -23,8 +23,7 @@ import kotlinx.coroutines.*
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentListBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private val listAdapter: ListAdapter by lazy { ListAdapter() }
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -64,14 +63,14 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
                 val itemToDelete = listAdapter.dataList[viewHolder.adapterPosition]
                 mToDoViewModel.deleteItem(itemToDelete)
                 listAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                restoreDeletedItem(viewHolder.itemView, itemToDelete, viewHolder.adapterPosition)
+                restoreDeletedItem(viewHolder.itemView, itemToDelete)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun restoreDeletedItem(view: View, deletedItem: ToDoData, position: Int) {
+    private fun restoreDeletedItem(view: View, deletedItem: ToDoData) {
         Snackbar.make(
             view,
             "Deleted '${deletedItem.title}'",

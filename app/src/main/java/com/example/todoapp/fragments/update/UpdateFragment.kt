@@ -17,9 +17,9 @@ import com.example.todoapp.fragments.SharedViewModel
 
 class UpdateFragment : Fragment() {
     private var _binding: FragmentUpdateBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+
     private val mSharedViewModel: SharedViewModel by viewModels()
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val args by navArgs<UpdateFragmentArgs>()
@@ -27,7 +27,7 @@ class UpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         binding.args = args
@@ -58,9 +58,9 @@ class UpdateFragment : Fragment() {
             setPositiveButton("YES") { _, _ ->
                 mToDoViewModel.deleteItem(args.currentItem)
                 Toast.makeText(
-                        requireContext(),
-                        "Successfully Removed: '${args.currentItem.title}'",
-                        Toast.LENGTH_SHORT
+                    requireContext(),
+                    "Successfully Removed: '${args.currentItem.title}'",
+                    Toast.LENGTH_SHORT
                 ).show()
                 findNavController().navigate(R.id.action_updateFragment_to_listFragment)
             }
@@ -85,16 +85,16 @@ class UpdateFragment : Fragment() {
             )
             mToDoViewModel.updateData(updatedItem)
             Toast.makeText(
-                    requireContext(),
-                    "Successfully Updated!",
-                    Toast.LENGTH_SHORT
+                requireContext(),
+                "Successfully Updated!",
+                Toast.LENGTH_SHORT
             ).show()
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         } else {
             Toast.makeText(
-                    requireContext(),
-                    "Please fill out all the fields.",
-                    Toast.LENGTH_SHORT
+                requireContext(),
+                "Please fill out all the fields.",
+                Toast.LENGTH_SHORT
             ).show()
         }
     }

@@ -15,8 +15,7 @@ import com.example.todoapp.fragments.SharedViewModel
 
 class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -25,7 +24,7 @@ class AddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         binding.prioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
@@ -70,9 +69,9 @@ class AddFragment : Fragment() {
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
         } else {
             Toast.makeText(
-                    requireContext(),
-                    "Please fill out all the fields.",
-                    Toast.LENGTH_SHORT
+                requireContext(),
+                "Please fill out all the fields.",
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
