@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,7 +19,7 @@ import com.example.todoapp.fragments.list.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentListBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -87,6 +88,10 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -112,5 +117,28 @@ class ListFragment : Fragment() {
             create()
         }
         alertDialog.show()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if(query != null) {
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        val searchQuery = "%$query%"
+        mToDoViewModel
+            .searchDatabase(searchQuery)
+            .observe(viewLifecycleOwner) {
+                list -> listAdapter.setData(list)
+            }
     }
 }
