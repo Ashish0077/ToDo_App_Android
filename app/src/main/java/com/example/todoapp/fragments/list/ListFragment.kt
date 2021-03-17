@@ -79,7 +79,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         ).apply {
             setAction("Undo") {
                 mToDoViewModel.insertData(deletedItem)
-                listAdapter.notifyItemChanged(position)
             }
             show()
         }
