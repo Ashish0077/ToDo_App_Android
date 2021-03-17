@@ -32,10 +32,8 @@ class ListFragment : Fragment() {
     ): View? {
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
-
+        binding.lifecycleOwner = this
+        binding.mSharedViewModel = mSharedViewModel
         // set menu
         setHasOptionsMenu(true)
 
@@ -45,21 +43,13 @@ class ListFragment : Fragment() {
             mSharedViewModel.isDatabaseEmpty(data)
             listAdapter.setData(data)
         }
-        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner) { isDbEmpty ->
-            showNoDataImage(isDbEmpty)
-        }
 
         return binding.root;
     }
 
-    private fun showNoDataImage(isDbEmpty: Boolean) {
-        if(isDbEmpty) {
-            binding.noDataImageView.visibility = View.VISIBLE
-            binding.noDataTextView.visibility = View.VISIBLE
-        } else {
-            binding.noDataImageView.visibility = View.INVISIBLE
-            binding.noDataTextView.visibility = View.INVISIBLE
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

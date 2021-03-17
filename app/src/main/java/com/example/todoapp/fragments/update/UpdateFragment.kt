@@ -30,13 +30,15 @@ class UpdateFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        binding.args = args
         binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModel.listener
         setHasOptionsMenu(true)
-        binding.currentDescriptionEt.setText(args.currentItem.description)
-        binding.currentTitleEt.setText(args.currentItem.title)
-        binding.currentPrioritiesSpinner.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priority))
-
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
