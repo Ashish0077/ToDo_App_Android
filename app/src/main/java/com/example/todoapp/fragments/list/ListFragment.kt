@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.R
+import com.example.todoapp.data.models.ToDoData
 import com.example.todoapp.data.viewmodel.ToDoViewModel
 import com.example.todoapp.databinding.FragmentListBinding
 import com.example.todoapp.fragments.SharedViewModel
 import com.example.todoapp.fragments.list.adapter.ListAdapter
+import com.google.android.material.snackbar.Snackbar
 
 class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
@@ -54,15 +56,26 @@ class ListFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val itemToDelete = listAdapter.dataList[viewHolder.adapterPosition]
                 mToDoViewModel.deleteItem(itemToDelete)
-                Toast.makeText(
-                    requireContext(),
-                    "Successfully Deleted: '${itemToDelete.title}'",
-                    Toast.LENGTH_SHORT
-                ).show()
+                listAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                restoreDeletedItem(viewHolder.itemView, itemToDelete, viewHolder.adapterPosition)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+
+    private fun restoreDeletedItem(view: View, deletedItem: ToDoData, position: Int) {
+        val snackbar = Snackbar.make(
+            view,
+            "Deleted '${deletedItem.title}'",
+            Snackbar.LENGTH_LONG
+        ).apply {
+            setAction("Undo") {
+                mToDoViewModel.insertData(deletedItem)
+                listAdapter.notifyItemChanged(position)
+            }
+            show()
+        }
     }
 
     override fun onDestroyView() {
@@ -90,7 +103,6 @@ class ListFragment : Fragment() {
                         "Successfully Removed everything! ",
                         Toast.LENGTH_SHORT
                 ).show()
-
             }
             setNegativeButton("NO") { _, _ -> /*DO NOTHING*/ }
             setTitle("Delete Everything?")
