@@ -18,6 +18,7 @@ import com.example.todoapp.fragments.SharedViewModel
 import com.example.todoapp.fragments.list.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import kotlinx.coroutines.*
 
 class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentListBinding? = null
@@ -27,6 +28,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private val listAdapter: ListAdapter by lazy { ListAdapter() }
     private val mToDoViewModel: ToDoViewModel by viewModels()
     private val mSharedViewModel: SharedViewModel by viewModels()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,7 +131,11 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(query: String?): Boolean {
         if(query != null) {
-            searchThroughDatabase(query)
+            searchJob?.cancel()
+            searchJob = coroutineScope.launch {
+                delay(500)
+                searchThroughDatabase(query)
+            }
         }
         return true
     }
@@ -137,8 +144,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         val searchQuery = "%$query%"
         mToDoViewModel
             .searchDatabase(searchQuery)
-            .observe(viewLifecycleOwner) {
-                list -> listAdapter.setData(list)
-            }
+            .observe(viewLifecycleOwner) { list -> listAdapter.setData(list) }
     }
 }
