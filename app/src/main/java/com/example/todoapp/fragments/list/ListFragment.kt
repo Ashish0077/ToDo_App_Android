@@ -16,6 +16,7 @@ import com.example.todoapp.databinding.FragmentListBinding
 import com.example.todoapp.fragments.SharedViewModel
 import com.example.todoapp.fragments.list.adapter.ListAdapter
 import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
@@ -29,7 +30,7 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
@@ -42,12 +43,13 @@ class ListFragment : Fragment() {
             listAdapter.setData(data)
         }
 
-        return binding.root;
+        return binding.root
     }
 
     private fun setUpRecyclerView() {
         binding.recyclerView.adapter = listAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recyclerView.itemAnimator = SlideInUpAnimator().apply { addDuration = 300 }
         swipeToDelete(binding.recyclerView)
     }
 
@@ -65,7 +67,7 @@ class ListFragment : Fragment() {
     }
 
     private fun restoreDeletedItem(view: View, deletedItem: ToDoData, position: Int) {
-        val snackbar = Snackbar.make(
+        Snackbar.make(
             view,
             "Deleted '${deletedItem.title}'",
             Snackbar.LENGTH_LONG
