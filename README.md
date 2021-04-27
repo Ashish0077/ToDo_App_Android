@@ -8,6 +8,11 @@
 
 <br>
 
+![](github_assets/SS1.png)
+![](github_assets/SS2.png)
+
+<br>
+
 ## Model View ViewModel Architecture
 
 ![](github_assets/mvvm.png)
